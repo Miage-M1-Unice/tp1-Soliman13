@@ -21,7 +21,7 @@ public class Main {
 
 	private void go() {
 		File file = new File("C:\\Users\\Soliman\\Documents\\Scolaire\\Master 1\\Java\\tp1\\ContenuRepertoire");
-		pattern = Pattern.compile(".*class");
+		pattern = Pattern.compile(".*\\.class");
 		instanciationFiltres();
 		lister(file);
 	}
