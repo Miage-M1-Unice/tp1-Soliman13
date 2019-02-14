@@ -20,7 +20,7 @@ public class Main {
 	}
 
 	private void go() {
-		File file = new File("C:\\Users\\Soliman\\Documents\\Scolaire\\Master 1\\Java\\tp1\\ContenuRepertoire");
+		File file = new File(System.getProperty("user.dir"));
 		pattern = Pattern.compile(".*\\.class");
 		instanciationFiltres();
 		lister(file);
@@ -44,7 +44,7 @@ public class Main {
 		if (files != null) {
 			for (File file : files) {
 				if(file.isFile()) {
-					System.out.println(file.getName());
+					System.out.println(file.getAbsolutePath());
 					continue;
 				}
 				lister(file);
