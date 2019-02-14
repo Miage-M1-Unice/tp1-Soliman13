@@ -1,24 +1,39 @@
 package fr.unice.soliman;
 
 import java.io.File;
+import java.io.FilenameFilter;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Main m = new Main();
-        m.lister(new File("C:\\Users\\Soliman\\Documents\\Scolaire\\Master 1\\Java\\tp1\\ContenuRepertoire"));
-    }
+	private FilenameFilter filtre;
 
-    private void lister(File rep) {
-        System.out.println (rep.toString());
+	public static void main(String[] args) {
+		Main m = new Main();
+		m.go();
+	}
 
-        if (rep.isDirectory()) {
-            File[] listFiles = rep.listFiles();
+	private void go() {
+		File file = new File("C:\\Users\\Soliman\\Documents\\Scolaire\\Master 1\\Java\\tp1\\ContenuRepertoire");
+		filtre = new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				File f = new File(dir, name);
+				return f.isDirectory() || f.toString().endsWith(".java") || f.toString().endsWith(".class");
+			}
+		};
+		lister(file);
+	}
 
-            for ( int i = 0; i < listFiles.length; i++) {
-                // appel récursif
-                lister( listFiles[i]);
-            }
-        }
-    }
+	private void lister(File rep) {
+		File[] files = rep.listFiles(filtre);
+		if (files != null) {
+			for (File file : files) {
+				if(file.isFile()) {
+					System.out.println(file.toString());
+					continue;
+				}
+				lister(file);
+			}
+		}
+	}
 }
