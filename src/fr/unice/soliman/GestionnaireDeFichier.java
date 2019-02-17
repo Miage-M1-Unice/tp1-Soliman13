@@ -29,16 +29,16 @@ public class GestionnaireDeFichier {
 		//		System.out.println(" -- Listing récursif de tous les répertoires -- Exo 2 --");
 		//		ex2(repertoire_de_depart);
 
-//		System.out.println(" -- Listing récursif de tous les répertoires avec filtre -- Exo 3 --");
-//		ex3(repertoire_de_depart);
+		System.out.println(" -- Listing récursif de tous les répertoires avec filtre -- Exo 3 --");
+		ex3(repertoire_de_depart);
 
-		System.out.println(" -- Listing récursif de tous les répertoires avec SimpleFileVisitor -- Exo 4 --");
-		try {
-			ex4(repertoire_de_depart);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		System.out.println(" -- Listing récursif de tous les répertoires avec SimpleFileVisitor -- Exo 4 --");
+//		try {
+//			ex4(repertoire_de_depart);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	private void ex1() {

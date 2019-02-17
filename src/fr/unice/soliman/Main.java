@@ -1,6 +1,5 @@
 package fr.unice.soliman;
 
-
 public class Main {
 
 	public static void main(String[] args) {
