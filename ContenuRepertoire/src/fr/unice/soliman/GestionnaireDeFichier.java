@@ -3,6 +3,7 @@ package fr.unice.soliman;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.regex.Matcher;
@@ -73,11 +74,8 @@ public class GestionnaireDeFichier {
 		}
 	}
 
-	private void ex4(File dir) throws IOException {
-		VisiteurDeFichier vdf = new VisiteurDeFichier();
-		File file = new File(System.getProperty("user.dir"));
-		BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-		vdf.visitFile(file.toPath(), attrs);
+	public static void ex4(File dir) throws IOException {
+		Files.walkFileTree(dir.toPath(), new VisiteurDeFichier());
 	}
 
 	private void instanciationFiltres() {
