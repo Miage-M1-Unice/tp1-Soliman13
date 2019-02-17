@@ -6,7 +6,7 @@ public class Main {
 		Main m = new Main();
 		m.go();
 	}
-
+	
 	private void go() {
 		String dirStart = System.getProperty("user.dir"); // répertoire courant selon l'OS
 		GestionnaireDeFichier gf = new GestionnaireDeFichier();

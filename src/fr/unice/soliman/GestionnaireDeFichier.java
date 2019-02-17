@@ -23,25 +23,25 @@ public class GestionnaireDeFichier {
 		pattern = Pattern.compile(".*\\.class");
 		instanciationFiltres();
 
-		//		System.out.println(" -- Simple listing du répertoire courant -- Exo 1 --");
-		//		ex1();
+		//		System.out.println(" -- Simple listing du répertoire courant -- Exo 1.1 --");
+		//		ex1_1();
 
-		//		System.out.println(" -- Listing récursif de tous les répertoires -- Exo 2 --");
-		//		ex2(repertoire_de_depart);
+		//		System.out.println(" -- Listing récursif de tous les répertoires -- Exo 1.2 --");
+		//		ex1_2(repertoire_de_depart);
 
-		System.out.println(" -- Listing récursif de tous les répertoires avec filtre -- Exo 3 --");
-		ex3(repertoire_de_depart);
+		System.out.println(" -- Listing récursif de tous les répertoires avec filtre -- Exo 1.3 --");
+		ex1_3(repertoire_de_depart);
 
-//		System.out.println(" -- Listing récursif de tous les répertoires avec SimpleFileVisitor -- Exo 4 --");
+//		System.out.println(" -- Listing récursif de tous les répertoires avec SimpleFileVisitor -- Exo 1.4 --");
 //		try {
-//			ex4(repertoire_de_depart);
+//			ex1_4(repertoire_de_depart);
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 	}
 
-	private void ex1() {
+	private void ex1_1() {
 		String[] filesName = repertoire_de_depart.list();
 		for (String fileName : filesName) {
 			System.out.println(fileName);
@@ -49,32 +49,32 @@ public class GestionnaireDeFichier {
 		System.out.println();
 	}
 
-	private void ex2(File dir) {
+	private void ex1_2(File dir) {
 		File[] files = dir.listFiles();
 		for (File file : files) {
 			if(file.isDirectory()) {
 				//				System.out.println("répertoire : " + file);
-				ex2(file);
+				ex1_2(file);
 				continue;
 			}
 			System.out.println(file.toString());
 		}
 	}
 
-	private void ex3(File dir) {
+	private void ex1_3(File dir) {
 //		File[] files = dir.listFiles(filtreInterne);
 //		File[] files = dir.listFiles(filtreExterne);
 		File[] files = dir.listFiles(filtreAnonyme);
 		for (File file : files) {
 			if(file.isDirectory()) {
-				ex3(file);
+				ex1_3(file);
 				continue;
 			}
 			System.out.println(file.toString());
 		}
 	}
 
-	public static void ex4(File dir) throws IOException {
+	public static void ex1_4(File dir) throws IOException {
 		Files.walkFileTree(dir.toPath(), new VisiteurDeFichier());
 	}
 
