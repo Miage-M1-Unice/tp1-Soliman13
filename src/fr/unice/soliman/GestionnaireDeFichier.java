@@ -3,9 +3,7 @@ package fr.unice.soliman;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +62,8 @@ public class GestionnaireDeFichier {
 	}
 
 	private void ex3(File dir) {
+//		File[] files = dir.listFiles(filtreInterne);
+//		File[] files = dir.listFiles(filtreExterne);
 		File[] files = dir.listFiles(filtreAnonyme);
 		for (File file : files) {
 			if(file.isDirectory()) {
