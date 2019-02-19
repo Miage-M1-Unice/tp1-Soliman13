@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,7 @@ public class SeLit {
 		this.pattern = Pattern.compile(".*\\.java");
 	}
 
-	public void getSingleFile() {
+	private void getSingleFile() {
 		InputStream is;
 		try {
 			is = new FileInputStream(System.getProperty("user.dir") + "\\src\\fr\\unice\\soliman\\SeLit.java");
@@ -30,7 +31,7 @@ public class SeLit {
 		}
 	}
 
-	public void getMultipleFiles() {
+	private void getMultipleFiles() {
 		InputStream is;
 		File[] files = repertoire_de_depart.listFiles(new FilenameFilter() {
 			@Override
@@ -53,12 +54,22 @@ public class SeLit {
 		}
 	}
 
-	void lecture(Scanner source) {
+	private void lecture(Scanner source) {
 		while(source.hasNextLine()) {
-			String s = source.nextLine();
-			if(!s.trim().startsWith("//")) {
-				System.out.println("LU: "+s);
+			String ligne = source.nextLine();
+			if(!ligne.trim().startsWith("//")) {
+				System.out.println("LU: "+ligne);
 			}
+		}
+	}
+
+	private void redirectionEcriture() {
+		try {
+			PrintStream printStream = new PrintStream("Output.txt");
+			System.setOut(printStream);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -67,8 +78,9 @@ public class SeLit {
 		getMultipleFiles();
 	}
 
-	static public void main(String[] args) {   
+	static public void main(String[] args) {
 		SeLit sl = new SeLit();
+		sl.redirectionEcriture();
 		sl.go();
 	}
 }

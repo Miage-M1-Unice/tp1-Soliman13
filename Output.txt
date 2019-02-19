@@ -1,0 +1,231 @@
+
+ -- Nouveau fichier -- 
+
+LU: package fr.unice.soliman;
+LU: 
+LU: import java.io.File;
+LU: import java.io.FilenameFilter;
+LU: import java.util.regex.Pattern;
+LU: 
+LU: public class FiltreExterne implements FilenameFilter {
+LU: 	
+LU: 	private Pattern pattern;
+LU: 	
+LU: 	public FiltreExterne(Pattern pattern) {
+LU: 		this.pattern = pattern;
+LU: 	}
+LU: 	
+LU: 	@Override
+LU: 	public boolean accept(File dir, String name) {
+LU: 		File f = new File(dir, name);
+LU: 		return f.isDirectory() || Pattern.matches(pattern.pattern(), f.getPath());
+LU: 	}
+LU: }
+
+ -- Nouveau fichier -- 
+
+LU: package fr.unice.soliman;
+LU: 
+LU: import java.io.File;
+LU: import java.io.FilenameFilter;
+LU: import java.io.IOException;
+LU: import java.nio.file.Files;
+LU: import java.util.regex.Matcher;
+LU: import java.util.regex.Pattern;
+LU: 
+LU: public class Main {
+LU: 
+LU: 	private FiltreInterne filtreInterne;
+LU: 	private FiltreExterne filtreExterne;
+LU: 	private FilenameFilter filtreAnonyme;
+LU: 
+LU: 	private Pattern pattern;
+LU: 	private Matcher matcher;
+LU: 
+LU: 	private File repertoire_de_depart;
+LU: 
+LU: 	public Main() {
+LU: 		this.repertoire_de_depart = new File(System.getProperty("user.dir")); // répertoire courant selon l'OS
+LU: 	}
+LU: 	public static void main(String[] args) {
+LU: 		Main m = new Main();
+LU: 		m.go();
+LU: 	}
+LU: 
+LU: 	private void go() {
+LU: 		pattern = Pattern.compile(".*\\.class");
+LU: 		instanciationFiltres();
+LU: 
+LU: 
+LU: 
+LU: 
+LU: 		System.out.println(" -- Listing récursif de tous les répertoires avec SimpleFileVisitor -- Exo 1.4 --");
+LU: 		try {
+LU: 			ex1_4(repertoire_de_depart);
+LU: 		} catch (IOException e) {
+LU: 			e.printStackTrace();
+LU: 		}
+LU: 	}
+LU: 
+LU: 	private void ex1_1() {
+LU: 		String[] filesName = repertoire_de_depart.list();
+LU: 		for (String fileName : filesName) {
+LU: 			System.out.println(fileName);
+LU: 		}
+LU: 		System.out.println();
+LU: 	}
+LU: 
+LU: 	private void ex1_2(File dir) {
+LU: 		File[] files = dir.listFiles();
+LU: 		for (File file : files) {
+LU: 			if(file.isDirectory()) {
+LU: 				ex1_2(file);
+LU: 				continue;
+LU: 			}
+LU: 			System.out.println(file.toString());
+LU: 		}
+LU: 	}
+LU: 
+LU: 	private void ex1_3(File dir) {
+LU: 		File[] files = dir.listFiles(filtreAnonyme);
+LU: 		for (File file : files) {
+LU: 			if(file.isDirectory()) {
+LU: 				ex1_3(file);
+LU: 				continue;
+LU: 			}
+LU: 			System.out.println(file.toString());
+LU: 		}
+LU: 	}
+LU: 
+LU: 	public void ex1_4(File dir) throws IOException {
+LU: 		Files.walkFileTree(dir.toPath(), new VisiteurDeFichier());
+LU: 	}
+LU: 
+LU: 	private void instanciationFiltres() {
+LU: 		filtreInterne = new FiltreInterne();
+LU: 		filtreExterne = new FiltreExterne(pattern);
+LU: 		filtreAnonyme = new FilenameFilter() {
+LU: 			@Override
+LU: 			public boolean accept(File dir, String name) {
+LU: 				File f = new File(dir, name);
+LU: 				matcher = pattern.matcher(f.getPath());
+LU: 				return f.isDirectory() || matcher.matches();
+LU: 			}
+LU: 		};
+LU: 	}
+LU: 
+LU: 	class FiltreInterne implements FilenameFilter{
+LU: 		@Override
+LU: 		public boolean accept(File dir, String name) {
+LU: 			File f = new File(dir, name);
+LU: 			matcher = pattern.matcher(f.getPath());
+LU: 			return f.isDirectory() || matcher.matches();
+LU: 		}
+LU: 	}
+LU: }
+
+ -- Nouveau fichier -- 
+
+LU: package fr.unice.soliman;
+LU: 
+LU: import java.io.File;
+LU: import java.io.FileInputStream;
+LU: import java.io.FileNotFoundException;
+LU: import java.io.FilenameFilter;
+LU: import java.io.InputStream;
+LU: import java.io.PrintStream;
+LU: import java.util.Scanner;
+LU: import java.util.regex.Pattern;
+LU: 
+LU: public class SeLit {
+LU: 
+LU: 	private File repertoire_de_depart;
+LU: 	private Pattern pattern;
+LU: 
+LU: 	public SeLit() {
+LU: 		this.repertoire_de_depart = new File(System.getProperty("user.dir") + "\\src\\fr\\unice\\soliman"); // répertoire des fichiers sources java
+LU: 		this.pattern = Pattern.compile(".*\\.java");
+LU: 	}
+LU: 
+LU: 	private void getSingleFile() {
+LU: 		InputStream is;
+LU: 		try {
+LU: 			is = new FileInputStream(System.getProperty("user.dir") + "\\src\\fr\\unice\\soliman\\SeLit.java");
+LU: 			Scanner scanner = new Scanner(is);
+LU: 			lecture(scanner);
+LU: 		} catch (FileNotFoundException e) {
+LU: 			System.err.println("Fichier non trouvé");
+LU: 			e.printStackTrace();
+LU: 		}
+LU: 	}
+LU: 
+LU: 	private void getMultipleFiles() {
+LU: 		InputStream is;
+LU: 		File[] files = repertoire_de_depart.listFiles(new FilenameFilter() {
+LU: 			@Override
+LU: 			public boolean accept(File dir, String name) {
+LU: 				return Pattern.matches(pattern.pattern(), name);
+LU: 			}
+LU: 		});
+LU: 		for (File file : files) {
+LU: 			System.out.println("\n -- Nouveau fichier -- \n");
+LU: 			if(file.isFile()) {
+LU: 				try {
+LU: 					is = new FileInputStream(file);
+LU: 					Scanner scanner = new Scanner(is);
+LU: 					lecture(scanner);
+LU: 				} catch (FileNotFoundException e) {
+LU: 					System.err.println("Fichier non trouvé");
+LU: 					e.printStackTrace();
+LU: 				}
+LU: 			}
+LU: 		}
+LU: 	}
+LU: 
+LU: 	private void lecture(Scanner source) {
+LU: 		while(source.hasNextLine()) {
+LU: 			String ligne = source.nextLine();
+LU: 			if(!ligne.trim().startsWith("//")) {
+LU: 				System.out.println("LU: "+ligne);
+LU: 			}
+LU: 		}
+LU: 	}
+LU: 
+LU: 	private void redirectionEcriture() {
+LU: 		try {
+LU: 			PrintStream printStream = new PrintStream("Output.txt");
+LU: 			System.setOut(printStream);
+LU: 		} catch (FileNotFoundException e) {
+LU: 			e.printStackTrace();
+LU: 		}
+LU: 	}
+LU: 
+LU: 	private void go() {
+LU: 		getMultipleFiles();
+LU: 	}
+LU: 
+LU: 	static public void main(String[] args) {
+LU: 		SeLit sl = new SeLit();
+LU: 		sl.redirectionEcriture();
+LU: 		sl.go();
+LU: 	}
+LU: }
+
+ -- Nouveau fichier -- 
+
+LU: package fr.unice.soliman;
+LU: 
+LU: import java.io.IOException;
+LU: import java.nio.file.FileVisitResult;
+LU: import java.nio.file.Path;
+LU: import java.nio.file.SimpleFileVisitor;
+LU: import java.nio.file.attribute.BasicFileAttributes;
+LU: 
+LU: public class VisiteurDeFichier extends SimpleFileVisitor<Path> {
+LU: 	
+LU: 	@Override
+LU: 	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+LU: 		System.out.println(file);
+LU: 		return super.visitFile(file, attrs);
+LU: 	}
+LU: }
