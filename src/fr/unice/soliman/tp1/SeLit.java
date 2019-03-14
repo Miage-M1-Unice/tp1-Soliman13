@@ -1,4 +1,4 @@
-package fr.unice.soliman;
+package fr.unice.soliman.tp1;
 
 import java.io.File;
 import java.io.FileInputStream;

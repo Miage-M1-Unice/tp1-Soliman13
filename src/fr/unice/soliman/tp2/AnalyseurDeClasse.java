@@ -1,4 +1,4 @@
-package fr.unice.soliman;
+package fr.unice.soliman.tp2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
